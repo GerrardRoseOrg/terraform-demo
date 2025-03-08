@@ -15,11 +15,6 @@ variable "env" {
   description = "Environment name"
 }
 
-# variable "vpc_id" {
-#   type        = string
-#   description = "VPC ID"
-# }
-
 ## EC2 instances
 // Shared
 variable "ssh_key_pair" {

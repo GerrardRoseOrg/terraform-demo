@@ -4,7 +4,7 @@
 
 module "web_server" {
   source   = "git::https://github.com/GerrardRoseOrg/terraform-demo-modules.git//ec2_instances?ref=main"
-#   source = "../terraform-demo-modules/ec2_instances"
+  # source = "../terraform-demo-modules/ec2_instances"
   
 #   for_each = toset(var.web_server_count)
 #   name                        = each.value
