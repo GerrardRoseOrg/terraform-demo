@@ -1,0 +1,39 @@
+# Direct terraform
+// Dev account
+1. 
+Authenticate shell
+
+2. 
+terraform init -upgrade
+
+3. 
+terraform plan -var-file "environments/dev/variables.tfvars" -state=environments/dev/dev.tfstate -out=dev.tfplan -compact-warnings
+
+4. 
+terraform apply -state=environments/dev/dev.tfstate "dev.tfplan"
+
+5.
+terraform state list -state=environments/dev/dev.tfstate
+
+6.
+terraform state show -state=environments/dev/dev.tfstate "module.web_server.module.ec2_instance.aws_instance.default[0]"
+
+
+// Prod account
+1. 
+Authenticate shell
+
+2. 
+terraform init -upgrade
+
+3. 
+terraform plan -var-file "environments/prod/variables.tfvars" -state=environments/prod/prod.tfstate -out=prod.tfplan -compact-warnings
+
+4. 
+terraform apply -state=environments/prod/prod.tfstate "prod.tfplan"
+
+5.
+terraform state list -state=environments/prod/prod.tfstate
+
+6.
+terraform state show -state=environments/prod/prod.tfstate "module.web_server.module.ec2_instance.aws_instance.default[0]"
