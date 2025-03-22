@@ -16,12 +16,23 @@ terraform {
 
   required_version = ">= 1.5.4"
 
+
 }
 
-#  default_tags {
-#    tags = {
-#      "Deployed By"  = "GitHub Actions"
-#      "Repo"         = "windows-smb-server"
-#      "Terraform"    = "true"
-#    }
-#  }
+provider "aws" {
+  region = var.region
+  assume_role {
+    role_arn     = "arn:aws:iam::${var.account}:role/terraform-demo-role"
+    session_name = "TERRAFORM_DEMO"
+    duration     = "1h"
+  }
+
+  default_tags {
+    tags = {
+      "Environment"  = var.env
+      "Product"      = var.account_type
+      "Terraform"    = "true"
+    }
+  }
+
+}

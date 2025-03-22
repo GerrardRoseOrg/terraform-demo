@@ -1,4 +1,6 @@
-account_type = "terraform-demo"
+region = "eu-west-2"
+account = "302263057374"
+account_type = "app-name"
 env = "prod"
 name = "demo"
 

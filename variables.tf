@@ -1,4 +1,12 @@
+variable "account" {
+  type        = string
+  description = "account"
+}
 
+variable "region" {
+  type        = string
+  description = "AWS region"
+}
 
 variable "name" {
   type        = string
