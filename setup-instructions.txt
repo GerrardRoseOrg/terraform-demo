@@ -37,6 +37,11 @@ aws iam create-role --role-name $ROLE_NAME --assume-role-policy-document '{
 }' --query "Role.Arn" --output text && \
 aws iam attach-role-policy --role-name $ROLE_NAME --policy-arn arn:aws:iam::aws:policy/AdministratorAccess
 
+5. Create the key pair: (copy and execute all lines below)
+aws ec2 create-key-pair --region eu-west-1 --key-name terraform-demo-dev-key-pair --query 'KeyMaterial' --output text > private-key.pem
+aws ssm put-parameter --region eu-west-1 --name "/ec2/keypairs/terraform-demo-dev-key-pair" --type "SecureString" --overwrite --value "$(cat private-key.pem)"
+rm private-key.pem
+
 
 Production account:
 1. Login to Production account.
@@ -61,6 +66,11 @@ aws iam create-role --role-name $ROLE_NAME --assume-role-policy-document '{
     ]
 }' --query "Role.Arn" --output text && \
 aws iam attach-role-policy --role-name $ROLE_NAME --policy-arn arn:aws:iam::aws:policy/AdministratorAccess
+
+5. Create the key pair: (copy and execute all lines below)
+aws ec2 create-key-pair --region eu-west-2 --key-name terraform-demo-prod-key-pair --query 'KeyMaterial' --output text > private-key.pem
+aws ssm put-parameter --region eu-west-2 --name "/ec2/keypairs/terraform-demo-prod-key-pair" --type "SecureString" --overwrite --value "$(cat private-key.pem)"
+rm private-key.pem
 
 Tooling account:
 1. Login to Tooling account.

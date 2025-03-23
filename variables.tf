@@ -23,7 +23,22 @@ variable "env" {
   description = "Environment name"
 }
 
-## EC2 instances
+#########################
+# Network
+#########################
+variable "availability_zones" {   // Added to support var.availability_zones
+  type        = list(string)
+  description = "availability_zones"
+}
+
+variable "ipv4_primary_cidr_block" {   // Added to support var.ipv4_primary_cidr_block
+  type        = string
+  description = "ipv4_primary_cidr_block"
+}
+
+#########################
+# EC2 Servers
+#########################
 // Shared
 variable "ssh_key_pair" {
   type        = string
@@ -31,6 +46,11 @@ variable "ssh_key_pair" {
 }
 
 // Web Server
+variable "web_server_count" {
+  type        = list(string)
+  description = "Number of EC2 Web Servers"
+}
+
 variable "web_server_instance_type" {
   type        = string
   description = "EC2 Web Server instance type"
@@ -40,5 +60,3 @@ variable "web_server_ami" {
   type        = string
   description = "EC2 AMI"
 }
-
-

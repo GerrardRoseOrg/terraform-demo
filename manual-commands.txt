@@ -1,0 +1,105 @@
+
+// Tooling account:
+1. Authenticate shell with Tooling SSO credentials
+
+* Deploy to Dev *** terraform direct against dev environment *** (update YOUR_BUCKET_NAME)
+1. Initialise terraform with backend
+terraform init -reconfigure -upgrade -backend-config="bucket=YOUR_BUCKET_NAME" -backend-config="key=dev/terraform-eu-west-1/terraform.tfstate" -backend-config="region=eu-west-2" -backend-config="dynamodb_table=terraform-demo-terraform-state-lock" -backend-config="encrypt=true"
+
+2. Run terraform plan
+terraform plan -var-file "environments/dev/variables.tfvars" -var "env=dev" -out=tfplan -compact-warnings
+
+3. Run terraform apply
+terraform apply "tfplan"
+
+4. If you want to deploy a web server edit environments/dev/variables.tfvars
+changing this...
+web_server_count = []# ["web-server-1"]
+to this...
+web_server_count = ["web-server-1"]
+
+5. Re-run terraform plan/apply
+
+6. You can connect to the instances(s) by selecting it in the EC2 console (eu-west-1) and connecting using Sessions Manager
+
+7. The output of the terraform apply will be the DNS name that should work in your web browser 2-3 minutes after launch
+Outputs:
+
+web_server_public_dns = [
+  "ec2-xxx-xxx-xxx-xxx.eu-west-1.compute.amazonaws.com", // Your EC2
+]
+
+8. The following is an example of showing the details of a resource in the terraform state (note back slashes, works for zsh & bash)
+terraform state show module.web_server\[\"web-server-1\"\].module.ec2_instance.aws_instance.default\[0\]
+
+
+* Destroy Dev
+1. Run the following commands hide the resource files from terraform
+mv ec2.tf ec2.tf.saved
+mv iam.tf iam.tf.saved
+mv network.tf network.tf.saved
+mv outputs.tf outputs.tf.saved
+mv security-groups.tf security-groups.tf.saved
+
+
+
+2. Run terraform plan
+terraform plan -var-file "environments/dev/variables.tfvars" -var "env=dev" -out=tfplan -compact-warnings
+
+3. Run terraform apply
+terraform apply "tfplan"
+
+4. Check terraform state to confirm it is empty
+terraform state list
+
+
+
+
+
+* Deploy to Prod *** terraform direct against prod environment *** (update YOUR_BUCKET_NAME)
+1. Initialise terraform with backend
+terraform init -reconfigure -upgrade -backend-config="bucket=YOUR_BUCKET_NAME" -backend-config="key=prod/terraform-eu-west-1/terraform.tfstate" -backend-config="region=eu-west-2" -backend-config="dynamodb_table=terraform-demo-terraform-state-lock" -backend-config="encrypt=true"
+
+2. Run terraform plan
+terraform plan -var-file "environments/prod/variables.tfvars" -var "env=prod" -out=tfplan -compact-warnings
+
+3. Run terraform apply
+terraform apply "tfplan"
+
+4. If you want to deploy a web server edit environments/prod/variables.tfvars
+changing this...
+web_server_count = []# ["web-server-1"]
+to this...
+web_server_count = ["web-server-1"]
+
+5. Re-run terraform plan/apply
+
+6. You can connect to the instances(s) by selecting it in the EC2 console (eu-west-2) and connecting using Sessions Manager
+
+7. The output of the terraform apply will be the DNS name that should work in your web browser 2-3 minutes after launch
+Outputs:
+
+web_server_public_dns = [
+  "ec2-xxx-xxx-xxx-xxx.eu-west-2.compute.amazonaws.com", // Your EC2
+]
+
+8. The following is an example of showing the details of a resource in the terraform state (note back slashes, works for zsh & bash)
+terraform state show module.web_server\[\"web-server-1\"\].module.ec2_instance.aws_instance.default\[0\]
+
+* Destroy Dev
+1. Run the following commands hide the resource files from terraform
+mv ec2.tf ec2.tf.saved
+mv iam.tf iam.tf.saved
+mv network.tf network.tf.saved
+mv outputs.tf outputs.tf.saved
+mv security-groups.tf security-groups.tf.saved
+
+
+2. Run terraform plan
+terraform plan -var-file "environments/prod/variables.tfvars" -var "env=prod" -out=tfplan -compact-warnings
+
+3. Run terraform apply
+terraform apply "tfplan"
+
+4. Check terraform state to confirm it is empty
+terraform state list

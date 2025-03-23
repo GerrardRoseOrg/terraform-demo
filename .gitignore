@@ -38,3 +38,5 @@ terraform.rc
 
 *.tfplan
 .terraform.lock.hcl
+
+gr-manual-commands.txt
