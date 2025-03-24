@@ -1,6 +1,13 @@
 
 // Tooling account:
-1. Authenticate shell with Tooling SSO credentials
+1. Authenticate shell with Tooling SSO credentials.
+
+2. Navigate to repo terraform-demo directory.
+
+3. If you have run terraform previously (before the backend was in AWS) then you may get errors deploying the updated code. If this is the case you can ensure your local terraform config is clean by running the following command.
+rm -rf .terraform*
+
+4. The previous command ony needs to be done once (or if errors persist), the .terraform* directory/file will be re-created the next time you run the below terraform init.
 
 * Deploy to Dev *** terraform direct against dev environment *** (update YOUR_BUCKET_NAME)
 1. Initialise terraform with backend
