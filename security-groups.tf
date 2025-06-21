@@ -24,7 +24,7 @@ module "web_server_sg" {
       to_port     = 443
       protocol    = "tcp"
       # cidr_blocks = ["0.0.0.0/0"]
-      cidr_blocks = ["82.22.173.9/32"] # adding comment, add something else, and one more thing!
+      cidr_blocks = ["82.22.173.9/32"] # adding comment, add something else, and one more thing! and okay, another thing again!
       description = "Allow HTTPS from Anywhere"
     }
   ]
